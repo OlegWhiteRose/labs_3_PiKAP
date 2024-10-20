@@ -6,13 +6,15 @@ class Unique:
 
 
     def __next__(self):
-        for item in self.items:
-            if isinstance(item, str) and self.ignore_case:
-                item = item.lower()
-
-            if item not in self.used:
-                self.used.add(item)
-                return item
+        for x in self.items:
+            if isinstance(x, str) and self.ignore_case:
+                 if x.lower() not in self.used:
+                     self.used.add(x.lower())
+                     return x
+            else:
+                if x not in self.used:
+                    self.used.add(x)
+                    return x
 
         raise StopIteration
 
