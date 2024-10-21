@@ -13,23 +13,23 @@ public abstract class GeometricShape
 
 public class Rectangle : GeometricShape, IPrint
 {
-    public double width { get; set; }
-    public double height { get; set; }
+    public double Width { get; set; }
+    public double Height { get; set; }
 
-    public Rectangle(double width, double height)
+    public Rectangle(double Width, double Height)
     {
-        this.width = width;
-        this.height = height;
+        this.Width = Width;
+        this.Height = Height;
     }
 
     public override double Area()
     {
-        return width * height;
+        return Width * Height;
     }
 
     public override string ToString()
     {
-        return $"Rectangle: Width = {width}, Height = {height}, Area = {Area()}";
+        return $"Rectangle: Width = {Width}, Height = {Height}, Area = {Area()}";
     }
 
     public void Print()
@@ -40,31 +40,33 @@ public class Rectangle : GeometricShape, IPrint
 
 public class Square : Rectangle
 {
-    public Square(double side) : base(side, side){}
+    public double Side { get; set; }    
+
+    public Square(double Side) : base(Side, Side) {}
 
     public override string ToString()
     {
-        return $"Square: Side = {width}, Area = {Area()}";
+        return $"Square: Side = {Side}, Area = {Area()}";
     }
 }
 
 public class Circle : GeometricShape, IPrint
 {
-    public double radius { get; set; }
+    public double Radius { get; set; }
 
-    public Circle(double radius)
+    public Circle(double Radius)
     {
-        this.radius = radius;
+        this.Radius = Radius;
     }
 
     public override double Area()
     {
-        return Math.PI * radius * radius;
+        return Math.PI * Radius * Radius;
     }
 
     public override string ToString()
     {
-        return $"Circle: Radius = {radius}, Area = {Area()}";
+        return $"Circle: Radius = {Radius}, Area = {Area()}";
     }
 
     public void Print()
