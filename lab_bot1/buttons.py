@@ -30,6 +30,12 @@ async def start_adding_word(message: Message, state: FSMContext):
 async def add_word(message: Message, state: FSMContext):
     if ":" in message.text:
         word, translation = map(str.strip, message.text.split(":", 1))
+
+        if word in words and translation == word[words]:
+            await message.answer("Слово с таким переводом уже есть")
+        if len(words) + 1 > MAX_COUNT:
+            await message.answer("Максимальное кол-во слов уже достигнуто")
+
         words[word] = translation
         await state.set_state(WordBotStates.idle)  
         await message.answer(f"Слово '{word}' с переводом '{translation}' добавлено. Выберите следующую команду.")
@@ -113,19 +119,21 @@ async def show_buttons(message: Message):
     if len(button_words) == 0:
         await message.answer("У вас нет добавленных кнопок.")
     else:
-        keyboard = InlineKeyboardMarkup(row_width=1)
-        for word, translation in button_words.items():
-            keyboard.add(InlineKeyboardButton(text=word, callback_data=word))
+        buttons = [
+            [InlineKeyboardButton(text=word, callback_data=word)]
+            for word in button_words
+        ]
+        keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
+
         await message.answer("Нажмите на кнопку, чтобы увидеть перевод:", reply_markup=keyboard)
 
 
 @dp.callback_query()
 async def handle_button(callback_query: Message):
     word = callback_query.data 
-    translation = button_words.get(word)
-    if translation:
+    if word in button_words:
         await bot.answer_callback_query(callback_query.id)
-        await bot.send_message(callback_query.from_user.id, f"Перевод для '{word}': {translation}")
+        await bot.send_message(callback_query.from_user.id, f"Перевод для {word} - {button_words[word]}")
     else:
         await bot.answer_callback_query(callback_query.id, text="Перевод не найден.")
 
@@ -146,4 +154,4 @@ async def show_buttons(message: Message):
 async def handle_button_callback(callback_query: CallbackQuery):
     word = callback_query.data
     await bot.answer_callback_query(callback_query.id)
-    await bot.send_message(callback_query.from_user.id, f"Перевод для {word}: {button_words[word]}")
+    await bot.send_message(callback_query.from_user.id, f"Перевод для {word} - {button_words[word]}")
