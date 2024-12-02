@@ -6,7 +6,7 @@ from buttons import *
 
 @dp.message(Command("start"))
 async def start_command(message: Message):
-    await message.answer("Привет! Я бот, который помогает тебе изучать английский.")
+    await message.answer("Привет! Я бот, который помогает тебе изучать английский. Вызвать меню: /menu.")
 
 
 @dp.message(Command("menu"))

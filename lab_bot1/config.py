@@ -6,7 +6,7 @@ MAX_COUNT = 1_000_000
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher()
 
-database_config = {
+DATABASE_CONFIG = {
     "user": "admin",
     "password": "admin",
     "database": "words",
